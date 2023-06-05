@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "QuickQuery",
+  "outputfilename": "QuickQuery",
+  "info": {
+    "companyName": "mmghv",
+    "productVersion": "0.1.0",
+    "copyright": "Copyright © 2023 github.com/mmghv",
+    "comments": "SQL Database query tool, built using Wails (Go & Vue.js)"
+  },
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "mmghv",
+    "email": "mm_ghv@yahoo.com"
+  }
+}

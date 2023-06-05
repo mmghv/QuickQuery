@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    background-color: #eceff166;
+    font-family: var(--font-family);
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 10px;
+}
+
+.p-datatable .p-sortable-column.p-highlight {
+    color: #007bff !important;
+}
