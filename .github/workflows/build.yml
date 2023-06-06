@@ -54,7 +54,7 @@ jobs:
           files: ./build/bin/*.exe
 
       - name: Define output filename
-        run: echo "OUTPUT_FILENAME=${{ env.FILENAME }}-${{ env.RELEASE_NAME }}-windows" >> $GITHUB_ENV
+        run: echo "OUTPUT_FILENAME=${{ env.FILENAME }}_${{ env.RELEASE_NAME }}_windows" >> $GITHUB_ENV
         shell: bash
 
       - name: Archive the executable into .zip
