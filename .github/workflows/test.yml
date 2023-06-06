@@ -40,28 +40,22 @@ jobs:
         
 
       - name: echo1
-        run: |
-            echo "$TEST2"
-            echo "$TEST3"
-            echo "${{ env.TEST2 }}"
-            echo "${{ env.TEST3 }}"
-            echo "${env:TEST2}"
-            echo "${env:TEST3}"
-            echo "$GITHUB_ENV"
+        run: echo "$GITHUB_CONTEXT"
+        shell: bash
+
+      - name: echo ref
+        run: echo "${{ github.ref }} - ${{ github.ref_type }}"
+        shell: bash
 
       - name: echo2
         run: echo "$TEST3"
 
       - name: echo4
         run: echo "$GITHUB_ENV"
+        shell: bash
 
       - name: release1
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ inputs.name }}1
-
-      - name: release2
-        uses: softprops/action-gh-release@v1
-        with:
-          name: ${{ inputs.name }}2
           tag_name: test-tag
