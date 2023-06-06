@@ -1,0 +1,63 @@
+name: build & publish a release
+
+on:
+  # manual triggering (with [name] input)
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Release Name'
+        required: true
+        default: 'New release'
+
+  # automatic trigger when a version tag is pushed
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  # Build output filename without the extension
+  FILENAME: QuickQuery
+  # Release name (pushed tag name or manual input name)
+  RELEASE_NAME: ${{ github.event_name == 'push' && github.ref_name || inputs.name }}
+
+jobs:
+
+  build-and-publish:
+    name: Build the application & publish a new release
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 18
+
+      - name: Install go
+        uses: actions/setup-go@v4
+        with: 
+          go-version-file: 'go.mod'
+
+      - name: Install Wails
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Build the executable
+        run: wails build
+
+      - name: Compress the executable with UPX
+        uses: crazy-max/ghaction-upx@v2
+        with:
+          files: ./build/bin/*.exe
+
+      - name: Define output filename
+        run: echo "OUTPUT_FILENAME=${{ env.FILENAME }}-${{ env.RELEASE_NAME }}-windows" >> $GITHUB_ENV
+
+      - name: Archive the executable into .zip
+        run: Compress-Archive -Path .\build\*.exe -DestinationPath .\${env:OUTPUT_FILENAME}.zip
+
+      - name: Publish a new release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.RELEASE_NAME }}
+          files: ${env:OUTPUT_FILENAME}.zip
