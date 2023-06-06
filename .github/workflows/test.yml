@@ -39,15 +39,21 @@ jobs:
         shell: bash
         
 
-      - name: echo
+      - name: echo1
         run: |
-            echo $TEST2
-            echo $TEST3
-            echo ${{ env.TEST2 }}
-            echo ${{ env.TEST3 }}
-            echo ${env:TEST2}
-            echo ${env:TEST3}
-            echo $GITHUB_ENV
+            echo "$TEST2"
+            echo "$TEST3"
+            echo "${{ env.TEST2 }}"
+            echo "${{ env.TEST3 }}"
+            echo "${env:TEST2}"
+            echo "${env:TEST3}"
+            echo "$GITHUB_ENV"
+
+      - name: echo2
+        run: echo "$TEST3"
+
+      - name: echo4
+        run: echo "$GITHUB_ENV"
 
       - name: release1
         uses: softprops/action-gh-release@v1
