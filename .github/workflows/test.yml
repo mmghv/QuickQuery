@@ -24,6 +24,9 @@ jobs:
     name: test
     runs-on: windows-latest
 
+    permissions:
+        contents: write
+
     steps:
       - name: test2
         run: |
@@ -48,14 +51,11 @@ jobs:
         shell: bash
 
       - name: echo2
-        run: echo "$TEST3"
+        run: echo "$TEST3 ${{ env.TEST3 }}"
 
-      - name: echo4
-        run: echo "$GITHUB_ENV"
-        shell: bash
 
       - name: release1
         uses: softprops/action-gh-release@v1
         with:
-          name: ${{ inputs.name }}1
-          tag_name: test-tag
+          name: ${{ inputs.name }}
+          tag_name: ${{ inputs.name }}
