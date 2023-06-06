@@ -58,7 +58,7 @@ jobs:
         shell: bash
 
       - name: Archive the executable into .zip
-        run: Compress-Archive -Path .\build\*.exe -DestinationPath .\${{ env.OUTPUT_FILENAME }}.zip
+        run: Compress-Archive -Path .\build\*.exe -DestinationPath ".\${{ env.OUTPUT_FILENAME }}.zip"
 
       - name: Publish a new release
         uses: softprops/action-gh-release@v1
