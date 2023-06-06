@@ -23,8 +23,11 @@ env:
 jobs:
 
   build-and-publish:
-    name: Build the application & publish a new release
+    name: Build & publish
     runs-on: windows-latest
+
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v3
@@ -52,12 +55,14 @@ jobs:
 
       - name: Define output filename
         run: echo "OUTPUT_FILENAME=${{ env.FILENAME }}-${{ env.RELEASE_NAME }}-windows" >> $GITHUB_ENV
+        shell: bash
 
       - name: Archive the executable into .zip
-        run: Compress-Archive -Path .\build\*.exe -DestinationPath .\${env:OUTPUT_FILENAME}.zip
+        run: Compress-Archive -Path .\build\*.exe -DestinationPath .\${{ env.OUTPUT_FILENAME }}.zip
 
       - name: Publish a new release
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ env.RELEASE_NAME }}
-          files: ${env:OUTPUT_FILENAME}.zip
+          tag_name: ${{ env.RELEASE_NAME }}
+          files: ${{ env.OUTPUT_FILENAME }}.zip
