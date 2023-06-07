@@ -1,8 +1,10 @@
 # QuickQuery
 
-Simple SQL database query tool, built using [Wails](https://wails.io/) (Go & Vue.js)
+[![Build](https://github.com/mmghv/QuickQuery/actions/workflows/build.yml/badge.svg)](https://github.com/mmghv/QuickQuery/actions/workflows/build.yml)
 
-Currently only supports `MSSQL`, other databases will be supported later.
+A simple SQL database query tool, built using [Wails](https://wails.io/) (Go & Vue.js)
+
+Currently only supports `MSSQL`, other SQL databases will be supported later.
 
 ![QuickQuery screenshot](./.github/screenshot.png)
 
@@ -10,11 +12,11 @@ Currently only supports `MSSQL`, other databases will be supported later.
 
 Download the latest version from the [releases page](https://github.com/mmghv/QuickQuery/releases), it's a standalone executable that doesn't need installation.
 
-Currently only built for windows, will be built for other systems in the future, or you can build it yourself from source.
+Currently only built for `Windows`, if there're requests for `Linux` or `MacOS` I may setup a workflow to build for it. Alternatively, you can use the instructions provided in the following section to build it yourself from the source code on your system. 
 
 ## Build locally
 
-1- Follow [these instructions](https://wails.io/docs/gettingstarted/installation) to install Wails and its dependencies (Go & NPM + Node)
+1- Follow [these instructions](https://wails.io/docs/gettingstarted/installation) to install `Wails` and its dependencies (Go & NPM + Node)
 
 2- Clone this repo :
 
@@ -40,7 +42,7 @@ You can find all build options [here](https://wails.io/docs/reference/cli#build)
 
 ## Credits
 
-App icon by [Mohamed Elsayed](https://www.behance.net/mohamedzzz)
+App icon by [Mohamed Elsayed](https://www.behance.net/mohamedzzz).
 
 ## License
 

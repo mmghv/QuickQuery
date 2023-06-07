@@ -1,4 +1,4 @@
-name: build & publish a release
+name: Build
 
 on:
   # manual triggering (with [name] input)
