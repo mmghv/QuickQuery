@@ -15,3 +15,15 @@ body {
 .p-datatable .p-sortable-column.p-highlight {
     color: #007bff !important;
 }
+
+.p-menu, .p-tieredmenu {
+    padding: 0.3rem 0 !important;
+}
+
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: #16e1b8;
+}

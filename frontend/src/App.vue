@@ -1,9 +1,11 @@
 <script setup>
 import { computed, nextTick, reactive, ref } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
-import { MssqlQuery } from '../wailsjs/go/main/App'
+import { GetAppVersion, MssqlQuery } from '../wailsjs/go/main/App'
+import AppIcon from './assets/images/appicon.png'
 
 const data = reactive({
+  appVersion: '',
   server: '(local)\\SQLEXPRESS',
   dbs: [],
   db: '',
@@ -20,7 +22,10 @@ const data = reactive({
   ready: false,
   ms: 0,
   requestId: 0,
+  about: false,
 })
+
+GetAppVersion().then(v => data.appVersion = v);
 
 const filters = computed({
   get() {
@@ -138,6 +143,15 @@ const copyRows = async () => {
 <template>
   <div class="top" @keydown="(e) => (e.code == 'F5') && execute()">
     <div class="flex">
+      <Button icon="mdi mdi-dots-vertical" iconClass="text-xl" class="mr-2 w-2rem" @click="(e) => $refs.menu.toggle(e)" />
+      <Menu
+        :model="[
+          {label: 'About', icon: 'mdi mdi-information', command: () => data.about = true},
+        ]"
+        popup
+        ref="menu"
+      />
+
       <InputText v-model="data.server" class="flex-1 min-w-0" title="server\instance,port" @change="get_dbs" />
       <InputText v-model="data.username" class="flex-1 min-w-0 max-w-6rem" title="user" @change="get_dbs" />
       <Password v-model="data.password" toggleMask :feedback="false" class="flex-1" inputClass="w-full" title="password" :pt="{input: {onchange: get_dbs}}" />
@@ -202,6 +216,17 @@ const copyRows = async () => {
       </Column>
     </DataTable>
   </div>
+
+  <Dialog v-model:visible="data.about" modal header="About">
+    <div class="text-center">
+      <img :src="AppIcon" />
+      <h2 class="mt-0 m-0">QuickQuery <span class="text-xs">v{{ data.appVersion }}</span></h2>
+      <p>A simple SQL database query tool</p>
+      <p>© 2023 <a href="https://github.com/mmghv">Mohamed Gharib</a></p>
+      <p>Open-source (MIT)</p>
+      <p><a href="https://github.com/mmghv/QuickQuery">View on github <i class="mdi mdi-github text-xl"></i></a></p>
+    </div>
+  </Dialog>
 </template>
 
 <!-- ============================================================================= -->

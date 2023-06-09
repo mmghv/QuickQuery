@@ -4,9 +4,9 @@
   "outputfilename": "QuickQuery",
   "info": {
     "companyName": "mmghv",
-    "productVersion": "0.1.0",
+    "productVersion": "0.1.1",
     "copyright": "Copyright © 2023 github.com/mmghv",
-    "comments": "SQL Database query tool, built using Wails (Go & Vue.js)"
+    "comments": "Simple SQL database query tool, built using Wails (Go & Vue.js)"
   },
   "frontend:install": "npm install",
   "frontend:build": "npm run build",

@@ -3,7 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+
+	_ "embed"
+
+	"github.com/tidwall/gjson"
 )
+
+//go:embed wails.json
+var wailsJSON string
 
 // App struct
 type App struct {
@@ -24,6 +31,12 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+// Get app version from wails.json file
+func (a *App) GetAppVersion() string {
+	version := gjson.Get(wailsJSON, "info.productVersion")
+	return version.String()
 }
 
 // Greet returns a greeting for the given name

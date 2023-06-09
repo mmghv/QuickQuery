@@ -1,4 +1,5 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
+import { RouterLink } from 'vue-router';
 import PrimeVue from 'primevue/config';
 import App from './App.vue'
 
@@ -11,6 +12,23 @@ import "./assets/primevue/theme.css";
 import "./assets/mdi-icons-v7/css/materialdesignicons.min.css"
 
 const app = createApp(App);
-app.use(PrimeVue, { ripple: true });
+app
+  .use(PrimeVue, { ripple: true })
+  // register router-link so Primevue doesn't complain
+  .component('router-link', RouterLink)
+  .mount('#app')
 
-app.mount('#app')
+// Open all links externally
+document.body.addEventListener('click', function(e) {
+  if (e.target && e.target.nodeName == 'A' && e.target.href) {
+    const url = e.target.href;
+    if (
+      !url.startsWith('http://#') &&
+      !url.startsWith('file://') &&
+      !url.startsWith('http://wails.localhost:')
+    ) {
+      e.preventDefault();
+      window.runtime.BrowserOpenURL(url);
+    }
+  }
+});
