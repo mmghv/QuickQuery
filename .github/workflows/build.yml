@@ -48,10 +48,10 @@ jobs:
       - name: Build the executable
         run: wails build
 
-      - name: Compress the executable with UPX
-        uses: crazy-max/ghaction-upx@v2
-        with:
-          files: ./build/bin/*.exe
+      # - name: Compress the executable with UPX
+      #   uses: crazy-max/ghaction-upx@v2
+      #   with:
+      #     files: ./build/bin/*.exe
 
       - name: Define output filename
         run: echo "OUTPUT_FILENAME=${{ env.FILENAME }}_${{ env.RELEASE_NAME }}_windows" >> $GITHUB_ENV
