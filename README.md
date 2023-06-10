@@ -4,7 +4,7 @@
 
 A simple SQL database query tool, built using [Wails](https://wails.io/) (Go & Vue.js)
 
-Currently only supports `MSSQL`, other SQL databases will be supported later.
+Currently only supports `MSSQL`, other SQL databases will be supported in the future.
 
 ![QuickQuery screenshot](./.github/screenshot.png)
 
@@ -12,7 +12,7 @@ Currently only supports `MSSQL`, other SQL databases will be supported later.
 
 Download the latest version from the [releases page](https://github.com/mmghv/QuickQuery/releases), it's a standalone executable that doesn't need installation.
 
-Currently only built for `Windows`, if there're requests for `Linux` or `MacOS` I may setup a workflow to build for it. Alternatively, you can use the instructions provided in the following section to build it yourself from the source code on your system. 
+Currently only built for `Windows`, if there's a request for `Linux` or `MacOS` I may setup a workflow to build for it. Alternatively, you can use the instructions provided in the following section to build it yourself from the source code on your system. 
 
 ## Build locally
 
@@ -34,11 +34,12 @@ You can find all build options [here](https://wails.io/docs/reference/cli#build)
 
 ## TODO
 
-- [ ] Build for other systems.
+- [ ] Build for other platforms.
 - [ ] Add support for `MySQL` and `SQLite`.
 - [ ] Add connection sessions feature.
 - [ ] Add multiple query tabs feature.
 - [ ] Add `Export to excel` feature.
+- [ ] Add `Dark Mode` feature.
 
 ## Credits
 
