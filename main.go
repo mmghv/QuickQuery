@@ -32,6 +32,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 		},
+		EnableDefaultContextMenu: true,
 	})
 
 	if err != nil {

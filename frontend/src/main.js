@@ -11,8 +11,7 @@ import "./assets/primevue/theme.css";
 // mdi icons
 import "./assets/mdi-icons-v7/css/materialdesignicons.min.css"
 
-const app = createApp(App);
-app
+const app = createApp(App)
   .use(PrimeVue, { ripple: true })
   // register router-link so Primevue doesn't complain
   .component('router-link', RouterLink)
