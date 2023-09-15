@@ -2,6 +2,7 @@
 import { computed, nextTick, reactive, ref } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import { GetAppVersion, MssqlQuery } from '../wailsjs/go/main/App'
+import Editor from './components/Editor.vue';
 import AppIcon from './assets/images/appicon.png'
 
 const data = reactive({
@@ -11,7 +12,7 @@ const data = reactive({
   db: '',
   username: 'sa',
   password: '',
-  query: 'SELECT GETDATE();',
+  query: 'SELECT GETDATE();\n\n',
   columns: [],
   rows: [],
   filters: {},
@@ -131,7 +132,6 @@ const copyRows = async () => {
     });
 
     navigator.clipboard.writeText(str);
-    
     data.loading = false;
   });
 }
@@ -159,14 +159,10 @@ const copyRows = async () => {
     </div>
     <ProgressBar v-show="data.loading_dbs" mode="indeterminate"></ProgressBar>
     <hr/>
-
-    <Textarea
+    <Editor
       v-model="data.query"
-      rows="2"
-      style="display: block; width: 100%; margin-top: 10px; margin-bottom: 10px; font-size: 1em;"
-      @keydown.enter.ctrl="execute"
-    >
-    </Textarea>
+      class="mb-2"
+    />
     <div class="flex align-items-center">
       <Button :disabled="data.loading_dbs" @click="execute">Execute (F5)</Button>
 
