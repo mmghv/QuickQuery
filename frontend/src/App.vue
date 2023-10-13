@@ -7,11 +7,6 @@ import AppIcon from './assets/images/appicon.png'
 
 import type { DataTableFilterMeta } from 'primevue/datatable'
 
-interface QueryResult {
-  result: {[key: string]: string}[]
-  columns: string[]
-}
-
 const data = reactive({
   appVersion: '',
   server: '(local)\\SQLEXPRESS',
@@ -64,7 +59,7 @@ const get_dbs = async () => {
   data.loading_dbs = true;
   try {
     const sql = "SELECT name FROM sys.databases WHERE name NOT IN ('tempdb', 'model', 'msdb')"
-    const r = await MssqlQuery(data.server, data.username, data.password, 'master', sql) as QueryResult
+    const r = await MssqlQuery(data.server, data.username, data.password, 'master', sql)
     if (requestId != data.requestId) return;
     data.dbs = r.result.map(row => row.name);
     if (data.dbs.length >= 1) {
@@ -92,7 +87,7 @@ const execute = async () => {
   await nextTick();
   const start = Date.now();
   try {
-    const r = await MssqlQuery(data.server, data.username, data.password, data.db, data.query) as QueryResult;
+    const r = await MssqlQuery(data.server, data.username, data.password, data.db, data.query);
     if (requestId != data.requestId) return;
     if (r == null || r.result == null) {
       data.error = 'No results returned!';

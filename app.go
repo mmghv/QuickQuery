@@ -18,7 +18,7 @@ type App struct {
 }
 
 type QueryResult struct {
-	Result  []map[string]interface{} `json:"result"`
+	Result  []map[string]interface{} `json:"result" ts_type:"{[key: string]: string}[]"`
 	Columns []string                 `json:"columns"`
 }
 
