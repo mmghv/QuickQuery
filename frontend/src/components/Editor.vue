@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUpdated, ref, watch } from 'vue';
 import { basicSetup } from "codemirror"
 import { EditorView, keymap } from "@codemirror/view"
@@ -16,7 +16,7 @@ const editor = new EditorView({
       basicSetup,
       keymap.of([
         indentWithTab,
-        {key: 'Ctrl-Shift-z', run: redo, 'preventDefault⁠': true},
+        {key: 'Ctrl-Shift-z', run: redo, preventDefault: true},
       ]),
       sql({
         dialect: MSSQL,
@@ -35,7 +35,7 @@ const utils = {
   getDoc() {
     return editor.state.doc.toString()
   },
-  setDoc(doc) {
+  setDoc(doc: string) {
     if (this.getDoc() != doc) {
       editor.dispatch({
         changes: {
@@ -57,7 +57,7 @@ const container = ref()
 function attachEditor() {
   if (editor.dom.parentElement !== container.value) {
     container.value.appendChild(editor.dom)
-    editor.dom.querySelector('.cm-scroller').style.height = '74px'
+    editor.dom.querySelector<any>('.cm-scroller').style.height = '74px'
   }
 }
 

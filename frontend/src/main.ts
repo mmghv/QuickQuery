@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { RouterLink } from 'vue-router';
 import PrimeVue from 'primevue/config';
 import App from './App.vue'
+import { BrowserOpenURL } from '../wailsjs/runtime'
 
 // primevue theme
 import "primevue/resources/primevue.min.css";
@@ -11,7 +12,7 @@ import "./assets/primevue/theme.css";
 // mdi icons
 import "./assets/mdi-icons-v7/css/materialdesignicons.min.css"
 
-const app = createApp(App)
+createApp(App)
   .use(PrimeVue, { ripple: true })
   // register router-link so Primevue doesn't complain
   .component('router-link', RouterLink)
@@ -19,7 +20,7 @@ const app = createApp(App)
 
 // Open all links externally
 document.body.addEventListener('click', function(e) {
-  if (e.target && e.target.nodeName == 'A' && e.target.href) {
+  if (e.target && e.target instanceof HTMLAnchorElement && e.target.href) {
     const url = e.target.href;
     if (
       !url.startsWith('http://#') &&
@@ -27,7 +28,7 @@ document.body.addEventListener('click', function(e) {
       !url.startsWith('http://wails.localhost:')
     ) {
       e.preventDefault();
-      window.runtime.BrowserOpenURL(url);
+      BrowserOpenURL(url);
     }
   }
 });

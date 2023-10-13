@@ -1,21 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { computed, nextTick, reactive, ref } from 'vue';
 import { FilterMatchMode } from 'primevue/api';
 import { GetAppVersion, MssqlQuery } from '../wailsjs/go/main/App'
 import Editor from './components/Editor.vue';
 import AppIcon from './assets/images/appicon.png'
 
+import type { DataTableFilterMeta } from 'primevue/datatable'
+
+interface QueryResult {
+  result: {[key: string]: string}[]
+  columns: string[]
+}
+
 const data = reactive({
   appVersion: '',
   server: '(local)\\SQLEXPRESS',
-  dbs: [],
+  dbs: [] as string[],
   db: '',
   username: 'sa',
   password: '',
   query: 'SELECT GETDATE();\n\n',
-  columns: [],
-  rows: [],
-  filters: {},
+  columns: [] as string[],
+  rows: [] as {[key: string]: string}[],
+  filters: {} as DataTableFilterMeta,
   filtersEnabled: false,
   error: '',
   loading_dbs: false,
@@ -30,14 +37,14 @@ GetAppVersion().then(v => data.appVersion = v);
 
 const filters = computed({
   get() {
-    return data.filtersEnabled ? data.filters : null;
+    return data.filtersEnabled ? data.filters : undefined;
   },
   set(val) {
-    if (data.filtersEnabled) data.filters = val;
+    if (data.filtersEnabled) data.filters = val ?? {};
   }
 })
 
-const toggleFilters = async (val) => {
+const toggleFilters = async (val: boolean) => {
   data.loading = true;
   await nextTick();
   setTimeout(async () => {
@@ -57,7 +64,7 @@ const get_dbs = async () => {
   data.loading_dbs = true;
   try {
     const sql = "SELECT name FROM sys.databases WHERE name NOT IN ('tempdb', 'model', 'msdb')"
-    const r = await MssqlQuery(data.server, data.username, data.password, 'master', sql)
+    const r = await MssqlQuery(data.server, data.username, data.password, 'master', sql) as QueryResult
     if (requestId != data.requestId) return;
     data.dbs = r.result.map(row => row.name);
     if (data.dbs.length >= 1) {
@@ -65,7 +72,7 @@ const get_dbs = async () => {
     }
   } catch (error) {
     if (requestId != data.requestId) return;
-    data.error = error;
+    data.error = String(error);
     data.dbs = [];
   }
   if (!data.dbs.includes(data.db)) {
@@ -85,7 +92,7 @@ const execute = async () => {
   await nextTick();
   const start = Date.now();
   try {
-    const r = await MssqlQuery(data.server, data.username, data.password, data.db, data.query);
+    const r = await MssqlQuery(data.server, data.username, data.password, data.db, data.query) as QueryResult;
     if (requestId != data.requestId) return;
     if (r == null || r.result == null) {
       data.error = 'No results returned!';
@@ -94,15 +101,14 @@ const execute = async () => {
       data.columns = r.columns;
       data.ms = Date.now() - start;
 
-      const filters = {};
+      data.filters = {}
       data.columns.forEach(col => {
-        filters[col] = { value: null, matchMode: FilterMatchMode.CONTAINS }
+        data.filters[col] = { value: null, matchMode: FilterMatchMode.CONTAINS }
       });
-      data.filters = filters;
     }
   } catch (error) {
     if (requestId != data.requestId) return;
-    data.error = error;
+    data.error = String(error);
   }
   data.ready = true;
   data.loading = false;
@@ -143,7 +149,7 @@ const copyRows = async () => {
 <template>
   <div class="top" @keydown="(e) => (e.code == 'F5') && execute()">
     <div class="flex">
-      <Button icon="mdi mdi-dots-vertical" iconClass="text-xl" class="mr-2 w-2rem" @click="(e) => $refs.menu.toggle(e)" />
+      <Button icon="mdi mdi-dots-vertical" iconClass="text-xl" class="mr-2 w-2rem" @click="(e) => ($refs.menu as any).toggle(e)" />
       <Menu
         :model="[
           {label: 'About', icon: 'mdi mdi-information', command: () => data.about = true},
@@ -195,7 +201,7 @@ const copyRows = async () => {
       :value="data.rows"
       :loading="data.loading"
       v-model:filters="filters"
-      :filterDisplay="data.filtersEnabled ? 'row' : ''"
+      :filterDisplay="data.filtersEnabled ? 'row' : undefined"
       showGridlines
       removableSort
       sortMode="multiple"
